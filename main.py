@@ -1,12 +1,39 @@
 from tkinter import *
 from tkinter import ttk
 
+class Calendar(ttk.Frame):
+
+    def __init__(self, parent, **args):
+        self.__width = args['height'] if 'height' in args else 532
+        self.__height = args['width'] if 'width' in args else 422
+
+        ttk.Frame.__init__(self, parent, width=self.__width, height=self.__height)
+
+        self.header = ttk.Frame(self, width=self.__width, height=40)
+        self.header.place(x=0, y=0)
+
+        self.__btnLastYear = ttk.Button(self.header, text="<<", width=2)
+        self.__btnLastYear.place(x=24, y=8)
+        self.__btnLastMonth = ttk.Button(self.header, text="<", width=2)
+        self.__btnLastMonth.place(x=78, y=8)
+        self.__lblMonth = ttk.Label(self.header, text="XXXXXXXXX 9999", width=15, anchor=CENTER, borderwidth=2, font=('Arial', 28, 'bold'))
+        self.__lblMonth.place(x=150, y=0)
+        self.__btnNextMonth = ttk.Button(self.header, text=">", width=2)
+        self.__btnNextMonth.place(x=408, y=8)
+        self.__btnLastYear = ttk.Button(self.header, text=">>", width=2)
+        self.__btnLastYear.place(x=462, y=8)
+
+
+
 class MainApp(Tk):
 
     def __init__(self):
         Tk.__init__(self)
         self.title("Calendario")
         self.geometry("532x422")
+
+        self.calendar = Calendar(self)
+        self.calendar.place(x=0, y=0)
 
     def start(self):
         self.mainloop()
