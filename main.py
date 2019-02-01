@@ -8,7 +8,18 @@ class Calendar(ttk.Frame):
         self.__height = args['width'] if 'width' in args else 422
 
         ttk.Frame.__init__(self, parent, width=self.__width, height=self.__height)
+        self.__createHeader()
 
+        dias = ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')
+        for i in range(7):
+            f = ttk.Frame(self, width=76, height=14)
+            f.pack_propagate(0)
+            ttk.Label(f, text=dias[i], font=('Arial', 11), anchor=CENTER, borderwidth=1, relief='solid').pack(fill=BOTH, expand=1)
+            f.place(x=i*76, y=40)
+
+
+
+    def __createHeader(self):
         self.header = ttk.Frame(self, width=self.__width, height=40)
         self.header.place(x=0, y=0)
 
@@ -16,13 +27,12 @@ class Calendar(ttk.Frame):
         self.__btnLastYear.place(x=24, y=8)
         self.__btnLastMonth = ttk.Button(self.header, text="<", width=2)
         self.__btnLastMonth.place(x=78, y=8)
-        self.__lblMonth = ttk.Label(self.header, text="XXXXXXXXX 9999", width=15, anchor=CENTER, borderwidth=2, font=('Arial', 28, 'bold'))
-        self.__lblMonth.place(x=150, y=0)
+        self.__lblMonth = ttk.Label(self.header, text="XXXXXXXXX 9999", width=15, anchor=CENTER, font=('Arial', 28, 'bold'))
+        self.__lblMonth.place(x=146, y=0)
         self.__btnNextMonth = ttk.Button(self.header, text=">", width=2)
         self.__btnNextMonth.place(x=408, y=8)
         self.__btnLastYear = ttk.Button(self.header, text=">>", width=2)
         self.__btnLastYear.place(x=462, y=8)
-
 
 
 class MainApp(Tk):
