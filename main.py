@@ -8,9 +8,13 @@ class Date(ttk.Frame):
     weekend = False
     __lblDate = None
 
+    __activeColor ="#000000"
+    __inactiveColor ="#C2C2C2"
+    __weekendColor ="#FF6157"
+    
     def __init__(self, parent):
         ttk.Frame.__init__(self, parent, width=76, height=61, borderwidth=0.5, relief='groove')
-        self.__lblDate = ttk.Label(self, text="28", font=('Arial', 28, 'bold'), width=2, anchor=E)
+        self.__lblDate = ttk.Label(self, text="28", font=('Arial', 28, 'bold'), width=2, anchor=E, foreground=self.__inactiveColor)
         self.__lblDate.place(x=37, y=22)
 
 
