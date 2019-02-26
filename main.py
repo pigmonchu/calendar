@@ -65,7 +65,7 @@ class Calendar(ttk.Frame):
         if nMes == 0:
             nMes = 12
 
-        nYear = fecha.year + (fecha.month + deltaMonth) // 12
+        nYear = fecha.year + (fecha.month + deltaMonth - 1) // 12
         return datetime.date(nYear, nMes, 1)
 
     def __init__(self, parent, **args):
@@ -84,7 +84,6 @@ class Calendar(ttk.Frame):
             for c in range(7):
                 d = self.__days__[c + f * 7]
                 d.place(x=c*76, y=f*61+55)
-                print (c + f * 7)
 
     def __createDaysNames__(self):
         dias = ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')
@@ -94,19 +93,23 @@ class Calendar(ttk.Frame):
             ttk.Label(f, text=dias[i], font=('Arial', 11), anchor=CENTER, borderwidth=0.5, relief='groove').pack(fill=BOTH, expand=1)
             f.place(x=i*76, y=40)
 
+    def setMonth(self, delta):
+        newMonth = self.__addMonth__(self.__month__, delta)
+        self.month(newMonth.year, newMonth.month)
+
     def __createHeader__(self):
         self.header = ttk.Frame(self, width=self.__width, height=40, borderwidth=0.5, relief='groove')
         self.header.place(x=0, y=0)
 
-        self.__btnLastYear__ = ttk.Button(self.header, text="<<", width=2)
+        self.__btnLastYear__ = ttk.Button(self.header, text="<<", width=2, command=lambda: self.setMonth(-12))
         self.__btnLastYear__.place(x=24, y=8)
-        self.__btnLastMonth__ = ttk.Button(self.header, text="<", width=2)
+        self.__btnLastMonth__ = ttk.Button(self.header, text="<", width=2, command=lambda: self.setMonth(-1))
         self.__btnLastMonth__.place(x=78, y=8)
         self.__lblMonth__ = ttk.Label(self.header, text="", width=15, anchor=CENTER, font=('Arial', 28, 'bold'))
         self.__lblMonth__.place(x=146, y=0)
-        self.__btnNextMonth__ = ttk.Button(self.header, text=">", width=2)
+        self.__btnNextMonth__ = ttk.Button(self.header, text=">", width=2, command=lambda: self.setMonth(+1))
         self.__btnNextMonth__.place(x=408, y=8)
-        self.__btnLastYear__ = ttk.Button(self.header, text=">>", width=2)
+        self.__btnLastYear__ = ttk.Button(self.header, text=">>", width=2, command=lambda: self.setMonth(+12))
         self.__btnLastYear__.place(x=462, y=8)
 
     def __createDays__(self):
@@ -141,11 +144,11 @@ class Calendar(ttk.Frame):
         if year == None:
             self.__month__ = datetime.date.today()
         elif month == None:
-            self.__month__ = date(year, 1, 1)
+            self.__month__ = datetime.date(year, 1, 1)
         else:
-            self.__month__ = date(year, month, 1)
+            self.__month__ = datetime.date(year, month, 1)
 
-        self.__lblMonth__.config(text=month_names[self.__month__.month-1])
+        self.__lblMonth__.config(text="{} {}".format(month_names[self.__month__.month-1], self.__month__.year))
         self.__setValuesDays__()
 
 class MainApp(Tk):
